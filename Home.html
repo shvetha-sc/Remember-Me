@@ -182,7 +182,8 @@ function mistake()
            //console.log(elementId);
            chosenImage = document.getElementById(elementId);
            //console.log(chosenImage);
-           chosenImage.src = "images\\found.png";
+           
+	   chosenImage.src = "images\\correctanswer.png";
            if(alreadydone.length == Object.keys(questionsArray).length)
            {
                swal({
@@ -244,7 +245,7 @@ function mistake()
                else {
                 document.getElementById("questionsDiv").innerHTML = "";
                 chosenImage = document.getElementById(currentAnswer);
-                chosenImage.src = "images\\found.png";
+                chosenImage.src = "images\\wronganswer.png";
                  statusOfClock = "";
                  questions();
                  onTimer();
