@@ -19,7 +19,7 @@
     <!-- Page Content -->
 	<div id="highScore"></div>
 	<div class="col-lg-12" id="rightimages" align="center"></div>
-        <div class="container" id="mainDiv">
+    <div class="container" id="mainDiv">
         <div class="row">
 			<table width="100%">
 				<tr>
@@ -45,10 +45,10 @@
 
 		<!--Image Content-->
         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-			<a class="thumbnail" href="#"><img class="img-responsive" id="1" src="Images/1.jpeg" alt="" onclick="itemClicked(this.id)"></a>
+			<a class="thumbnail" href="#"><img class="img-responsive" id="1" src="Images/1.jpg" alt="" onclick="itemClicked(this.id)"></a>
         </div>
         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-			<a class="thumbnail" href="#"><img class="img-responsive" id="2" src="Images/2.jpeg" alt="" onclick="itemClicked(this.id)"></a>
+			<a class="thumbnail" href="#"><img class="img-responsive" id="2" src="Images/2.jpg" alt="" onclick="itemClicked(this.id)"></a>
         </div>
             <div class="col-lg-3 col-md-4 col-xs-6 thumb">
                 <a class="thumbnail" href="#">
@@ -79,21 +79,33 @@
 	var currentAnswer = null;
 	var clock;
 	var idChosen;
+	var statusOfClock = "";
 	var score = 0;
 
 	//Fixed Lives
 	var life=3;
 	var mistakes=0;
+	var wrongchoices=[];
 
    //Populate Questions
-   questionsArray["Who is Sunder Pichai?"]="1";
-   questionsArray["Who is Bill Gates?"]="2";
-   questionsArray["Who is Tom Cruise?"]="3";
-   questionsArray["Who is Mark?"]="4";
-   questionsArray["Who is John?"]="5";
-   questionsArray["Who is Mary?"]="6";
+   questionsArray["Who is Minu Francis?"]="1";
+   questionsArray["Who is Pooja Donekal?"]="2";
+   questionsArray["Who is John Paul?"]="3";
+   questionsArray["Who is Shvetha Suvarna?"]="4";
+   questionsArray["Who is Paul Jose?"]="5";
+   questionsArray["Who is Surbhi Arora?"]="6";
+
+   //Helps the user by providing the correct answers
+   Rightimages=[];
+   Rightimages["1"]="Minu Francis";
+   Rightimages["2"]="Pooja Donekal";
+   Rightimages["3"]="John Paul";
+   Rightimages["4"]="Shvetha Suvarna";
+   Rightimages["5"]="Paul Jose";
+   Rightimages["6"]="Surbhi Arora";
 
 
+	//Display Questions to the user
    function questions()
    {
      var len=Object.keys(questionsArray).length;
@@ -132,10 +144,14 @@
        }
      }
    }
+
+   //Call Questions
    questions();
    var statusOfClock = "";
    onTimer();
 
+
+//Logs the misses made by the user
 function mistake()
 {
   if(mistakes!=3)
@@ -158,24 +174,58 @@ function mistake()
     var ele=document.getElementById(life.toString());
     ele.parentNode.removeChild(ele);
     swal("Game Over", "", "error")
+    var par=document.getElementById("rightimages");
+	par.style = "text-align:center; "
+	var tableNew = document.createElement("table");
+	par.tableNew = "align:center; "
+	par.appendChild(tableNew);
+	var row = document.createElement("tr");
+	row.padding ="10px";
+	row.style = "text-align:center; padding:10px;"
+	tableNew.appendChild(row);
+	if(wrongchoices.length>0)
+	{
+		par.appendChild(document.createTextNode("These were your wrong choices"));
+		par.appendChild(document.createElement("br"));
+	}
+    for(t=0;t<wrongchoices.length;t++)
+    {
+      var child=document.createElement("img");
+							child.src="images/"+wrongchoices[t]+".jpg";
+							child.width="200";
+							child.height="200";
+							par.appendChild(child);
+							var td = document.createElement("td");
+							td.style = "text-align:center;padding:10px;"
+							row.appendChild(td);
+							td.appendChild(child);
+							var divVal = document.createElement("div");
+							td.appendChild(divVal);
+							var name=document.createTextNode(Rightimages[wrongchoices[t].toString()]);
+							divVal.appendChild(name);
+    }
   }
 }
-     function itemClicked(elementId)
-     {
+
+
+//Get information about the item clicked
+    function itemClicked(elementId)
+    {
        idChosen = elementId;
        statusOfClock = "false";
        clock.stop();
        if(elementId == currentAnswer)
        {
-	   score++;
-         swal({
-       title: "Good Job!",
-       text: "Right Answer",
-       type: "success",
-       confirmButtonColor: "#DD6B55",
-       confirmButtonText: "Continue to Play",
-       closeOnConfirm: checkLength(),
-       closeOnCancel: false
+		   score++;
+			 swal({
+		   title: "Good Job!",
+		   text: "Right Answer",
+		   imageUrl:"https://s-media-cache-ak0.pinimg.com/originals/c4/23/78/c42378d139a6a9e5c5a67464c34f5355.gif",
+		   imageSize: '200x200',
+		   confirmButtonColor: "#DD6B55",
+		   confirmButtonText: "Continue to Play",
+		   closeOnConfirm: checkLength(),
+		   closeOnCancel: false
        },
        function(isConfirm) {
          if (isConfirm) {
@@ -183,9 +233,9 @@ function mistake()
            //console.log(elementId);
            chosenImage = document.getElementById(elementId);
            //console.log(chosenImage);
-           
-	   chosenImage.src = "images\\correctanswer.png";
-	   chosenImage.onclick = function() {
+           chosenImage.src = "images\\correctanswer.png";
+
+           chosenImage.onclick = function() {
               return false;
           }
            if(alreadydone.length == Object.keys(questionsArray).length)
@@ -202,9 +252,46 @@ function mistake()
                if(isConfirm)
                {
                  //var checkClock = document.getElementById("clockdiv");
-                 document.getElementById("clockdiv").innerHTML = "";
+                 document.getElementById("mainDiv").innerHTML = "";
                }
              });
+
+           var highScoreValue = document.createElement("h1");
+           var parentEle = document.getElementById("highScore");
+           parentEle.appendChild(highScoreValue);
+           var t = document.createTextNode("Score is : "+score)
+           highScoreValue.appendChild(t);
+           highScoreValue.align ="center";
+		   var par=document.getElementById("rightimages");
+		   par.style = "text-align:center; "
+			var tableNew = document.createElement("table");
+			par.tableNew = "align:center; "
+			par.appendChild(tableNew);
+			var row = document.createElement("tr");
+			row.padding ="10px";
+			row.style = "text-align:center; padding:10px;"
+			tableNew.appendChild(row);
+	if(wrongchoices.length>0)
+	{
+		par.appendChild(document.createTextNode("These were your wrong choices"));
+		par.appendChild(document.createElement("br"));
+	}
+    for(t=0;t<wrongchoices.length;t++)
+    {
+							var child=document.createElement("img");
+							child.src="images/"+wrongchoices[t]+".jpg";
+							child.width="200";
+							child.height="200";
+							par.appendChild(child);
+							var td = document.createElement("td");
+							td.style = "text-align:center;padding:10px;"
+							row.appendChild(td);
+							td.appendChild(child);
+							var divVal = document.createElement("div");
+							td.appendChild(divVal);
+							var name=document.createTextNode(Rightimages[wrongchoices[t].toString()]);
+							divVal.appendChild(name);
+    }
            }
            else {
              questions();
@@ -217,13 +304,14 @@ function mistake()
 
        }
        else {
-        imageid=document.getElementById(currentAnswer).src.split(".")[1];
+        imageext=document.getElementById(currentAnswer).src.split(".")[1];
+        wrongchoices.push(questionsArray[key]);
          mistake();
            swal({
              title:"Oops...",
              text:"Sorry!Here is the right answer",
              type:"error",
-             imageUrl: "images/"+questionsArray[key]+"."+imageid,
+             imageUrl: "images/"+questionsArray[key]+"."+imageext,
              closeOnConfirm: checkLife(),
              closeOnCancel: false
            },
@@ -233,56 +321,55 @@ function mistake()
              {
                if(life == 0)
                {
-                   document.getElementById("clockdiv").innerHTML = "";
-                   document.getElementById("questionsDiv").innerHTML = "";
-		   document.getElementById("mainDiv").innerHTML= "";
-	           var highScoreValue = document.createElement("h1");
-		   var parentEle = document.getElementById("highScore");
-		    parentEle.appendChild(highScoreValue);
-				   var t = document.createTextNode("HighScore is : "+score)
-				   highScoreValue.appendChild(t);
-				   highScoreValue.align ="center";
-                   swal("GAME OVER", "Good Luck Next Time!", "error");
-		var par=document.getElementById("rightimages");
-	par.style = "text-align:center; "
-		   var tableNew = document.createElement("table");
-		  par.tableNew = "align:center; "
-		   par.appendChild(tableNew);
-		   var row = document.createElement("tr");
-		     row.padding ="10px";
-			 row.style = "text-align:center; padding:10px;"
-		   tableNew.appendChild(row);
-           //console.log("wrongchoices"+wrongchoices);
-            for(t=0;t<wrongchoices.length;t++)
-            {
-              var child=document.createElement("img");
-              child.src="images/"+wrongchoices[t]+".jpg";
-              child.width="200"
-              child.height="200"
-			  var td = document.createElement("td");
-			  td.style = "text-align:center;padding:10px;"
-			  //console.log("Minu check");
-			  //console.log(td);
-				
-			  row.appendChild(td);
-              td.appendChild(child);
-              var divVal = document.createElement("div");
-              td.appendChild(divVal);
-              
-              var name=document.createTextNode(Rightimages[wrongchoices[t].toString()]);
-              divVal.appendChild(name);
-	    }	
+					document.getElementById("clockdiv").innerHTML = "";
+					document.getElementById("questionsDiv").innerHTML = "";
+					document.getElementById("mainDiv").innerHTML= "";
+					var highScoreValue = document.createElement("h1");
+					var parentEle = document.getElementById("highScore");
+					parentEle.appendChild(highScoreValue);
+					var t = document.createTextNode("Score is : "+score)
+					highScoreValue.appendChild(t);
+					highScoreValue.align ="center";
+					swal("GAME OVER", "Good Luck Next Time!", "error");
+					var par=document.getElementById("rightimages");
+					par.style = "text-align:center; "
+					var tableNew = document.createElement("table");
+					par.tableNew = "align:center; "
+					par.appendChild(tableNew);
+					var row = document.createElement("tr");
+					row.padding ="10px";
+					row.style = "text-align:center; padding:10px;"
+					tableNew.appendChild(row);
+					if(wrongchoices.length>0)
+					{
+						par.appendChild(document.createTextNode("These were your wrong choices"));
+						par.appendChild(document.createElement("br"));
+					}
+					for(t=0;t<wrongchoices.length;t++)
+					{
+							var child=document.createElement("img");
+							child.src="images/"+wrongchoices[t]+".jpg";
+							child.width="200";
+							child.height="200";
+							par.appendChild(child);
+							var td = document.createElement("td");
+							td.style = "text-align:center;padding:10px;"
+							row.appendChild(td);
+							td.appendChild(child);
+							var divVal = document.createElement("div");
+							td.appendChild(divVal);
+							var name=document.createTextNode(Rightimages[wrongchoices[t].toString()]);
+							divVal.appendChild(name);
+					}
                }
-               else {
-                document.getElementById("questionsDiv").innerHTML = "";
-                chosenImage = document.getElementById(currentAnswer);
-                chosenImage.src = "images\\wronganswer.png";
-		chosenImage.onclick = function() {
-              		return false;
-          	}
-                 statusOfClock = "";
-                 questions();
-                 onTimer();
+               else
+			   {
+					document.getElementById("questionsDiv").innerHTML = "";
+					chosenImage = document.getElementById(currentAnswer);
+					chosenImage.src = "images\\wronganswer.png";
+					statusOfClock = "";
+					questions();
+					onTimer();
                }
              }
            }
@@ -335,9 +422,29 @@ function mistake()
                {
                    if(life == 0)
                    {
-                     document.getElementById("clockdiv").innerHTML = "";
-                     document.getElementById("questionsDiv").innerHTML = "";
-                     swal("GAME OVER", "Good Luck Next Time!", "error");
+                     //document.getElementById("clockdiv").innerHTML = "";
+                     //document.getElementById("questionsDiv").innerHTML = "";
+
+                    swal("GAME OVER", "Good Luck Next Time!", "error");
+					document.getElementById("mainDiv").innerHTML = "";
+                    var highScoreValue = document.createElement("h1");
+					var parentEle = document.getElementById("highScore");
+					parentEle.appendChild(highScoreValue);
+					var t = document.createTextNode("Score is : "+score)
+					highScoreValue.appendChild(t);
+					highScoreValue.align ="center";
+                     var par=document.getElementById("rightimages");
+                     console.log("wrongchoices"+wrongchoices);
+                    for(t=0;t<wrongchoices.length;t++)
+                    {
+                      var child=document.createElement("img");
+					  child.src="images/"+wrongchoices[t]+".jpg";
+                      par.appendChild(child);
+
+                      var name=document.createTextNode(Rightimages[wrongchoices[t]]);
+                      par.appendChild(name);
+                    }
+
                    }
                    else {
                      clock.setTime(10);
