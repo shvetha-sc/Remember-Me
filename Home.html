@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-	">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REMEMBER ME</title>
+	<script src="assets/js/sweetalert.min.js"></script>
+<!--External Stylesheets and JS Files-->
+	<link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/thumbnail-gallery.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="assets/css/sweetalert.css">
+	<link rel="stylesheet" href="assets/css/flipclock.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="assets/js/flipclock.js"></script>
+</head>
+
+<body class="container">
+    <!-- Page Content -->
+	<div id="highScore"></div>
+    <div class="container" id="mainDiv">
+        <div class="row">
+			<table width="100%">
+				<tr>
+					<td>
+						<div id="clockdiv" class="timerData" style="margin:2em;" >
+						<div class="clock" style="margin:2em;" ></div>
+						</div>
+					</td>
+					<td>
+						<div class="col-lg-12" id="questionsDiv"></div>
+					</td>      
+					<td>
+						<div class="col-lg-12" id="lifeDisplay" >
+							<img id="10" src="http://pix.iemoji.com/phan33/0147.png" width="80px" height="80px" align="right"/>
+							<img id="20" src="http://pix.iemoji.com/phan33/0147.png" width="80px" height="80px" align="right"/>
+							<img id="30" src="http://pix.iemoji.com/phan33/0147.png" width="80px" height="80px" align="right"/> 
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<!--Image Content-->
+        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+			<a class="thumbnail" href="#"><img class="img-responsive" id="1" src="Images/1.jpeg" alt="" onclick="itemClicked(this.id)"></a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+			<a class="thumbnail" href="#"><img class="img-responsive" id="2" src="Images/2.jpeg" alt="" onclick="itemClicked(this.id)"></a>
+        </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="#">
+                    <img class="img-responsive" id="3" src="Images/3.jpg" alt="" onclick="itemClicked(this.id)">
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="#">
+                      <img class="img-responsive" id="4" src="Images/4.jpg" alt="" onclick="itemClicked(this.id)">
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="#">
+                      <img class="img-responsive" id="5" src="Images/5.jpg" alt="" onclick="itemClicked(this.id)">
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" href="#">
+                      <img class="img-responsive" id="6" src="Images/6.jpg" alt="" onclick="itemClicked(this.id)">
+                </a>
+            </div>
+          
+
+   <script>
+	//Global Variables
+	var alreadydone = [];
+	var questionsArray = [];
+	var currentAnswer = null;
+	var clock;
+	var idChosen;
+	var score = 0;
+	
+	//Fixed Lives
+	var life=3;
+	var mistakes=0;
+   
+   //Populate Questions
+   questionsArray["Who is Sunder Pichai?"]="1";
+   questionsArray["Who is Bill Gates?"]="2";
+   questionsArray["Who is Tom Cruise?"]="3";
+   questionsArray["Who is Mark?"]="4";
+   questionsArray["Who is John?"]="5";
+   questionsArray["Who is Mary?"]="6";
+
+   
+   function questions()
+   {
+     var len=Object.keys(questionsArray).length;
+     while(alreadydone.length != len)
+     {
+		console.log("Insidewhile" + alreadydone.length);
+		picked=Math.floor((Math.random() * len-1)) + 1;
+		if (alreadydone.indexOf(picked) == -1)
+		{
+			alreadydone.push(picked);
+			key = Object.keys(questionsArray)[picked];
+			var questionsHeader = document.createElement("H1") ;
+			questionsHeader.style.color = '#320E3B';
+			questionsHeader.align="center";
+			var t = document.createTextNode(key);
+			currentAnswer = questionsArray[key];
+			questionsHeader.appendChild(t);
+			questionsDiv.appendChild(questionsHeader);
+			break;
+       }
+       if(alreadydone.length == len)
+       {
+         swal({
+           title:"Oops...",
+           text: "Right Answer",
+           type: "success",
+           closeOnConfirm: true,
+           closeOnCancel: true
+         });
+		  var highScoreValue = document.createElement("h1");
+				   var parentEle = document.getElementById("highScore");
+				   parentEle.appendChild(highScoreValue);
+				   var t = document.createTextNode("HighScore is : "+score)
+				   highScoreValue.appendChild(t);
+				   highScoreValue.align ="center";
+       }
+     }
+   }
+   questions();
+   var statusOfClock = "";
+   onTimer();
+
+function mistake()
+{
+  if(mistakes!=3)
+  {
+    var bla = life * 10;
+    var ele=document.getElementById(bla.toString());
+	var newImage = document.createElement("img");
+	newImage.src= "https://s-media-cache-ak0.pinimg.com/736x/52/88/0b/52880b7f76e668cd468b136483298648.jpg";
+	newImage.width="80px";
+	newImage.height="80px";
+    newImage.align="right";
+	ele.parentNode.appendChild(newImage)
+    ele.parentNode.removeChild(ele);
+    life--;
+    mistakes++;
+  }
+  else
+  {
+    var ele=document.getElementById(life.toString());
+    ele.parentNode.removeChild(ele);
+    swal("Game Over", "", "error")
+  }
+}
+     function itemClicked(elementId)
+     {
+       idChosen = elementId;
+       statusOfClock = "false";
+       clock.stop();
+       if(elementId == currentAnswer)
+       {
+	   score++;
+         swal({
+       title: "Good Job!",
+       text: "Right Answer",
+       type: "success",
+       confirmButtonColor: "#DD6B55",
+       confirmButtonText: "Continue to Play",
+       closeOnConfirm: checkLength(),
+       closeOnCancel: false
+       },
+       function(isConfirm) {
+         if (isConfirm) {
+           document.getElementById("questionsDiv").innerHTML = "";
+           //console.log(elementId);
+           chosenImage = document.getElementById(elementId);
+           //console.log(chosenImage);
+           chosenImage.src = "images\\found.png";
+           if(alreadydone.length == Object.keys(questionsArray).length)
+           {
+               swal({
+                 title:"GAME OVER",
+                 text:"Good Going!",
+                 type:"success",
+                 closeOnConfirm: true,
+
+             },
+             function(isConfirm)
+             {
+               if(isConfirm)
+               {
+                 //var checkClock = document.getElementById("clockdiv");
+                 document.getElementById("clockdiv").innerHTML = "";
+               }
+             });
+           }
+           else {
+             questions();
+             statusOfClock = "";
+             onTimer();
+           }
+         }
+   }
+         );
+
+       }
+       else {
+        imageid=document.getElementById(currentAnswer).src.split(".")[1];
+         mistake();
+           swal({
+             title:"Oops...",
+             text:"Sorry!Here is the right answer",
+             type:"error",
+             imageUrl: "images/"+questionsArray[key]+"."+imageid,
+             closeOnConfirm: checkLife(),
+             closeOnCancel: false
+           },
+           function(isConfirm)
+           {
+             if(isConfirm)
+             {
+               if(life == 0)
+               {
+                   //console.log("Game Over");
+                   document.getElementById("clockdiv").innerHTML = "";
+                   document.getElementById("questionsDiv").innerHTML = "";
+				   document.getElementById("mainDiv").innerHTML= "";
+				   var highScoreValue = document.createElement("h1");
+				   var parentEle = document.getElementById("highScore");
+				   parentEle.appendChild(highScoreValue);
+				   var t = document.createTextNode("HighScore is : "+score)
+				   highScoreValue.appendChild(t);
+				   highScoreValue.align ="center";
+                   swal("GAME OVER", "Good Luck Next Time!", "error");
+				  
+               }
+               else {
+                document.getElementById("questionsDiv").innerHTML = "";
+                chosenImage = document.getElementById(currentAnswer);
+                chosenImage.src = "images\\found.png";
+                 statusOfClock = "";
+                 questions();
+                 onTimer();
+               }
+             }
+           }
+         );
+
+       }
+       //console.log(elementId);
+     }
+
+     function checkLength()
+     {
+       if(alreadydone.length == Object.keys(questionsArray).length)
+         return false;
+         else {
+           return true;
+         }
+     }
+
+     function checkLife()
+     {
+       if(life == 0)
+       {
+         return false;
+       }
+       else {
+         return true;
+       }
+     }
+
+     function onTimer()
+     {
+       clock = new FlipClock($('.clock'), 10, {
+         clockFace: 'Counter',
+         autoStart: true,
+         countdown: true,
+         callbacks: {
+           stop: function() {
+             if(statusOfClock == "")
+             {
+               mistake();
+               swal({
+                 title: "Oops...",
+                 text: "Time is Up!!!! Try your luck next time",
+                 type: "error",
+                 closeOnConfirm: checkLife()
+               },
+             function(isConfirm)
+             {
+               if(isConfirm)
+               {
+                   if(life == 0)
+                   {
+                     document.getElementById("clockdiv").innerHTML = "";
+                     document.getElementById("questionsDiv").innerHTML = "";
+                     swal("GAME OVER", "Good Luck Next Time!", "error");
+                   }
+                   else {
+                     clock.setTime(10);
+                     clock.start();
+                   }
+
+                 }
+               });
+             }
+
+             }
+
+       }
+
+       });
+     }
+
+
+    </script>
+
+    <!-- jQuery -->
+    <script src="assets/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="assets/js/bootstrap.min.js"></script>
+</body>
+</html>

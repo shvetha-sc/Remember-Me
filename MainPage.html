@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Remember Me ?</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body>
+			<div id="wrapper">
+					<header id="header">
+						<div class="logo">
+							<span class="icon fa-book"></span>
+						</div>
+						<div class="content">
+							<div class="inner">
+								<h1>Remember Me ?</h1>
+								</div>
+						</div>
+						<nav>
+							<ul>
+								<li><a href="#playGame" onclick="loadIFrame()">Start Game</a></li>
+								<li><a href="#howToPlayGame">How to Play</a></li>
+							</ul>
+						</nav>
+					</header>
+					<div id="main">
+							<article id="playGame"></article>
+							<article id="howToPlayGame">
+								<p><h3>Objective</h3></p>
+								<p>This game intends on helping you memorize and recollect the things important to you.</p>
+								<p><h3>How do I play</h3></p>
+								<p>1.A question will be posed and you will be asked be asked to find a person amongst a set of pictures within a certain timeframe.</p>
+								<p>2.You will be given three chances to give a correct answer.</p>
+								<p>3.For every wrong answer you will loose a life.</p>
+								<p>4.You will gain a point for every right answer.</p>
+								<p>5.Click on the picture of the person corresponding to the question.</p>
+							</article>
+					</div>
+			</div>
+
+		<!-- BG -->
+			<div id="bg"></div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script>
+			function deleteFrame()
+			{
+				var iframe = document.getElementById('myFrame');
+				iframe.parentNode.removeChild(iframe);
+			}
+			function loadIFrame(){
+				var iframe = document.createElement('iframe');
+				iframe.frameBorder=0;
+				iframe.width="100%";
+				iframe.height="100%";
+				iframe.id="myFrame";
+				iframe.setAttribute("src", 'Home.html');
+				document.getElementById("playGame").appendChild(iframe);
+				}
+			</script>
+
+	</body>
+</html>
