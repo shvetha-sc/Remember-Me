@@ -184,6 +184,9 @@ function mistake()
            //console.log(chosenImage);
            
 	   chosenImage.src = "images\\correctanswer.png";
+	   chosenImage.onclick = function() {
+              return false;
+          }
            if(alreadydone.length == Object.keys(questionsArray).length)
            {
                swal({
@@ -246,6 +249,9 @@ function mistake()
                 document.getElementById("questionsDiv").innerHTML = "";
                 chosenImage = document.getElementById(currentAnswer);
                 chosenImage.src = "images\\wronganswer.png";
+		chosenImage.onclick = function() {
+              		return false;
+          	}
                  statusOfClock = "";
                  questions();
                  onTimer();
