@@ -232,18 +232,45 @@ function mistake()
              {
                if(life == 0)
                {
-                   //console.log("Game Over");
                    document.getElementById("clockdiv").innerHTML = "";
                    document.getElementById("questionsDiv").innerHTML = "";
-				   document.getElementById("mainDiv").innerHTML= "";
-				   var highScoreValue = document.createElement("h1");
-				   var parentEle = document.getElementById("highScore");
-				   parentEle.appendChild(highScoreValue);
+		   document.getElementById("mainDiv").innerHTML= "";
+	           var highScoreValue = document.createElement("h1");
+		   var parentEle = document.getElementById("highScore");
+		    parentEle.appendChild(highScoreValue);
 				   var t = document.createTextNode("HighScore is : "+score)
 				   highScoreValue.appendChild(t);
 				   highScoreValue.align ="center";
                    swal("GAME OVER", "Good Luck Next Time!", "error");
-
+		var par=document.getElementById("rightimages");
+	par.style = "text-align:center; "
+		   var tableNew = document.createElement("table");
+		  par.tableNew = "align:center; "
+		   par.appendChild(tableNew);
+		   var row = document.createElement("tr");
+		     row.padding ="10px";
+			 row.style = "text-align:center; padding:10px;"
+		   tableNew.appendChild(row);
+           //console.log("wrongchoices"+wrongchoices);
+            for(t=0;t<wrongchoices.length;t++)
+            {
+              var child=document.createElement("img");
+              child.src="images/"+wrongchoices[t]+".jpg";
+              child.width="200"
+              child.height="200"
+			  var td = document.createElement("td");
+			  td.style = "text-align:center;padding:10px;"
+			  //console.log("Minu check");
+			  //console.log(td);
+				
+			  row.appendChild(td);
+              td.appendChild(child);
+              var divVal = document.createElement("div");
+              td.appendChild(divVal);
+              
+              var name=document.createTextNode(Rightimages[wrongchoices[t].toString()]);
+              divVal.appendChild(name);
+	    }	
                }
                else {
                 document.getElementById("questionsDiv").innerHTML = "";
