@@ -22,25 +22,26 @@
         <div class="row">
 			<table width="100%">
 				<tr>
-					<td>
+					<td style="overflow: hidden;width:280px; text-align: center; valign: top; whitespace: nowrap;" >
 						<div id="clockdiv" class="timerData" style="margin:2em;" >
-						<div class="clock" style="margin:2em;" ></div>
+						        <div class="clock" style="margin:2em;" ></div>
 						</div>
 					</td>
-					<td>
-						<div class="col-lg-12" id="questionsDiv"></div>
-					</td>      
-					<td>
+
+            <td align="center" style="overflow: hidden;width:280px; text-align: center; valign: top; whitespace: nowrap;">
+						<div class="col-lg-12" id="questionsDiv" align="center"></div>
+					</td>
+					<td style="overflow: hidden;width:280px; text-align: center; valign: top; whitespace: nowrap;">
 						<div class="col-lg-12" id="lifeDisplay" >
 							<img id="10" src="http://pix.iemoji.com/phan33/0147.png" width="80px" height="80px" align="right"/>
 							<img id="20" src="http://pix.iemoji.com/phan33/0147.png" width="80px" height="80px" align="right"/>
-							<img id="30" src="http://pix.iemoji.com/phan33/0147.png" width="80px" height="80px" align="right"/> 
+							<img id="30" src="http://pix.iemoji.com/phan33/0147.png" width="80px" height="80px" align="right"/>
 						</div>
 					</td>
 				</tr>
 			</table>
 		</div>
-		
+
 		<!--Image Content-->
         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
 			<a class="thumbnail" href="#"><img class="img-responsive" id="1" src="Images/1.jpeg" alt="" onclick="itemClicked(this.id)"></a>
@@ -68,7 +69,7 @@
                       <img class="img-responsive" id="6" src="Images/6.jpg" alt="" onclick="itemClicked(this.id)">
                 </a>
             </div>
-          
+
 
    <script>
 	//Global Variables
@@ -78,11 +79,11 @@
 	var clock;
 	var idChosen;
 	var score = 0;
-	
+
 	//Fixed Lives
 	var life=3;
 	var mistakes=0;
-   
+
    //Populate Questions
    questionsArray["Who is Sunder Pichai?"]="1";
    questionsArray["Who is Bill Gates?"]="2";
@@ -91,7 +92,7 @@
    questionsArray["Who is John?"]="5";
    questionsArray["Who is Mary?"]="6";
 
-   
+
    function questions()
    {
      var len=Object.keys(questionsArray).length;
@@ -141,13 +142,14 @@ function mistake()
     var bla = life * 10;
     var ele=document.getElementById(bla.toString());
 	var newImage = document.createElement("img");
-	newImage.src= "http://worldartsme.com/images/heart-shaped-printable-clipart-1.jpg";
-	newImage.width="80px";
-	newImage.height="80px";
-    newImage.align="right";
+
 	ele.parentNode.appendChild(newImage)
     ele.parentNode.removeChild(ele);
-    life--; 
+    newImage.src= "https://s-media-cache-ak0.pinimg.com/736x/52/88/0b/52880b7f76e668cd468b136483298648.jpg";
+  	newImage.width="80px";
+  	newImage.height="80px";
+      newImage.align="right";
+    life--;
     mistakes++;
   }
   else
@@ -237,7 +239,7 @@ function mistake()
 				   highScoreValue.appendChild(t);
 				   highScoreValue.align ="center";
                    swal("GAME OVER", "Good Luck Next Time!", "error");
-				  
+
                }
                else {
                 document.getElementById("questionsDiv").innerHTML = "";
